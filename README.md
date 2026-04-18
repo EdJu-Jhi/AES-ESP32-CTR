@@ -1,67 +1,80 @@
-# AES-128 CTR Performance Analysis on ESP32
+# AES-128 CTR Performance Analysis on ESP32 (IoT Experiment)
 
-## 📌 Overview
-This project evaluates the performance of AES-128 encryption in CTR mode on an ESP32 device. The goal is to analyze encryption time, memory usage, and system stability over 50 iterations.
+## Overview
+Este proyecto evalúa el rendimiento del algoritmo AES-128 en modo CTR implementado en un ESP32. El objetivo es analizar el tiempo de cifrado, descifrado y el uso de memoria en un entorno IoT real.
 
-The system uses Arduino IDE with the mbedTLS cryptographic library and logs results into a CSV file for analysis using Python.
-
----
-
-## ⚙️ Hardware & Software
-- ESP32 WROOM-32
-- Arduino IDE
-- mbedTLS library (AES implementation)
-- Python (pandas, matplotlib)
+Se realizaron 50 iteraciones para observar la estabilidad del sistema y el comportamiento del algoritmo en condiciones repetitivas de ejecución.
 
 ---
 
-## 📊 Metrics Collected
-- Encryption time (µs)
-- Decryption time (µs)
-- Free heap memory (bytes)
-- Iteration count (50 samples)
+## Hardware y software utilizados
+Se utilizó un ESP32 WROOM-32 conectado por USB a una computadora. El desarrollo se realizó en Arduino IDE utilizando la librería mbedTLS para la implementación de AES.
+
+Para el análisis de datos se utilizó Python con las librerías pandas y matplotlib.
 
 ---
 
-## 🧪 Methodology
-1. ESP32 executes AES-128 CTR encryption and decryption.
-2. Execution time is measured using microsecond precision timers.
-3. Free heap memory is recorded during each iteration.
-4. Data is exported to a CSV file.
-5. Python is used to visualize results.
+## Metodología
+El ESP32 ejecuta el cifrado AES-128 en modo CTR y registra en cada iteración:
+
+- Tiempo de cifrado (microsegundos)
+- Tiempo de descifrado (microsegundos)
+- Memoria libre del sistema (heap)
+
+Los datos se almacenan en un archivo CSV y posteriormente se procesan en Python para generar visualizaciones del comportamiento del sistema.
 
 ---
 
-## 📈 Results
+## Estructura del proyecto
 
-### 🔐 Encryption Performance
-- Initial iteration shows higher latency (~47 µs)
-- Stabilizes around ~11 µs after warm-up phase
-
-### 🧠 Memory Usage
-- Free heap remains stable (~334 KB)
-- No memory leaks detected
-
----
-
-## 📉 Graphical Analysis
-
-The following graph shows encryption time and memory stability:
-
-![AES Results](images/aes_memory_encrypt.png)
+AES-ESP32-CTR/
+├── data/
+│   └── results.csv
+├── src/
+│   └── aes_ctr.ino
+├── plot.py
+├── aes_results.png
+└── README.md
 
 ---
 
-## 🧠 Interpretation
-- AES-128 CTR execution stabilizes after initial iterations due to system warm-up.
-- Memory usage remains constant, indicating efficient resource handling in ESP32.
-- Results suggest that hardware acceleration (if present) improves consistency.
+## Resultados
+
+En las mediciones se observa un comportamiento bastante estable del sistema.
+
+El tiempo de cifrado se mantiene aproximadamente en 11 µs y el tiempo de descifrado en 10 µs durante la mayoría de las iteraciones.
+
+Sin embargo, en la primera iteración se registra un valor mayor en el tiempo de cifrado (≈47 µs). Este comportamiento puede explicarse como un overhead inicial del sistema, asociado a la inicialización del contexto criptográfico AES, la preparación interna de la librería mbedTLS y la activación de optimizaciones del procesador en el ESP32.
+
+Después de esta fase inicial, los valores se estabilizan y permanecen constantes durante el resto de las ejecuciones.
+
+La memoria libre del sistema se mantiene estable alrededor de 334 KB, sin variaciones significativas.
 
 ---
 
-## 🚀 Conclusion
-AES-128 CTR on ESP32 demonstrates stable encryption performance and negligible memory variation, making it suitable for IoT applications requiring lightweight cryptography.
+## Visualización
+
+Los datos fueron graficados utilizando Python. El gráfico muestra la evolución del tiempo de cifrado y descifrado a lo largo de las 50 iteraciones.
+
+El resultado se guarda como:
+
+aes_results.png
 
 ---
 
-## 📁 Project Structure
+## Conclusión
+
+El ESP32 muestra un rendimiento estable al ejecutar AES-128 en modo CTR. La baja variación en los tiempos de ejecución sugiere un comportamiento optimizado, posiblemente debido a soporte de aceleración por hardware para operaciones criptográficas.
+
+El comportamiento inicial más alto no afecta la estabilidad general del sistema, ya que se normaliza rápidamente en las siguientes iteraciones.
+
+---
+
+## Posibles mejoras
+
+Como trabajo futuro, se podría ampliar el estudio comparando AES con transmisión sin cifrado, integrar comunicación MQTT para un entorno IoT más real, y analizar el consumo energético del sistema durante el proceso de cifrado.
+
+---
+
+## Autor
+Proyecto de experimentación en IoT y criptografía con ESP32.
