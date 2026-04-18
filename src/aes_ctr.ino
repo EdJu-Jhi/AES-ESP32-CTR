@@ -13,7 +13,7 @@ unsigned char input[16] = "SensorData12345";
 unsigned char encrypted[16];
 unsigned char decrypted[16];
 
-// ⚠️ IMPORTANTE: ESP32 usa size_t aquí
+//   ESP32 usa size_t aquí
 size_t nc_off_enc = 0;
 size_t nc_off_dec = 0;
 
@@ -38,7 +38,7 @@ void loop() {
 
     unsigned long t1 = micros();
 
-    // 🔐 CIFRADO CTR
+    // CIFRADO CTR
     mbedtls_aes_crypt_ctr(
       &aes,
       16,
@@ -51,7 +51,7 @@ void loop() {
 
     unsigned long t2 = micros();
 
-    // 🔓 DESCIFRADO CTR
+    //  DESCIFRADO CTR
     mbedtls_aes_crypt_ctr(
       &aes,
       16,
